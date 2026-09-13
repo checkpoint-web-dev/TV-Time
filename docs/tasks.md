@@ -3,7 +3,7 @@
 ## FASE 1: Configuracao Inicial e Estilos Globais
 
 - [x] **Task 1.1:** Definir as variaveis de CSS em `src/index.css`, incluindo as cores `#121212`, `#1C1C1E` e `#FFD000`, alem do reset global, tipografia base, layout responsivo e estados de foco.
-- [ ] **Task 1.2:** Criar o servico e as funcoes helper para chamadas da API do TMDB em `src/services/tmdb.js`, utilizando `fetch` nativo, variaveis de ambiente para a chave e tratamento de respostas invalidas ou erros de rede.
+- [x] **Task 1.2:** Criar o servico e as funcoes helper para chamadas da API do TMDB em `src/services/tmdb.js`, utilizando `fetch` nativo, variaveis de ambiente para a chave e tratamento de respostas invalidas ou erros de rede.
 
 ## FASE 2: Roteamento e Shell da Aplicacao
 
