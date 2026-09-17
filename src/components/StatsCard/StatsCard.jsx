@@ -1,15 +1,11 @@
 import './StatsCard.css'
 
-function StatsCard({ label, value, detail, icon: Icon }) {
+function StatsCard({ label, value, detail }) {
   return (
     <article className="stats-card" aria-label={label}>
-      <div className="stats-card-icon" aria-hidden="true">
-        {Icon ? <Icon size={20} /> : null}
-      </div>
-
       <div className="stats-card-content">
         <span className="stats-card-label">{label}</span>
-        <strong className="stats-card-value">{value}</strong>
+        <div className="stats-card-value">{value}</div>
         <small className="stats-card-detail">{detail}</small>
       </div>
     </article>

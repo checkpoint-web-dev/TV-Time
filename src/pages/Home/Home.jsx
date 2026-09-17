@@ -3,12 +3,13 @@ import { AlertCircle, LoaderCircle } from 'lucide-react'
 import { useSearchParams } from 'react-router-dom'
 import GenreRow from '../../components/GenreRow/GenreRow'
 import HeroBanner from '../../components/HeroBanner/HeroBanner'
-import { getMoviesByGenre, getPopularMovies, getPopularTvShows, getTrending, searchMedia } from '../../services/tmdb'
+import { getMediaByGenre, getMoviesByGenre, getTrending, searchMedia } from '../../services/tmdb'
 import './Home.css'
 
 const ACTION_GENRE_ID = 28
 const COMEDY_GENRE_ID = 35
 const DRAMA_GENRE_ID = 18
+const TV_ACTION_GENRE_ID = 10759
 
 function Home() {
   const [searchParams] = useSearchParams()
@@ -30,22 +31,40 @@ function Home() {
 
       try {
         if (searchQuery || mediaType) {
+          if (mediaType && !searchQuery) {
+            const actionGenre = mediaType === 'tv' ? TV_ACTION_GENRE_ID : ACTION_GENRE_ID
+            const [action, comedy, drama] = await Promise.all([
+              getMediaByGenre(mediaType, actionGenre),
+              getMediaByGenre(mediaType, COMEDY_GENRE_ID),
+              getMediaByGenre(mediaType, DRAMA_GENRE_ID),
+            ])
+
+            if (!isMounted) {
+              return
+            }
+
+            setActionMedia((action.results ?? []).map((media) => ({ ...media, media_type: mediaType })))
+            setComedyDramaMedia([
+              ...(comedy.results ?? []),
+              ...(drama.results ?? []),
+            ]
+              .filter((media, index, items) => items.findIndex((item) => item.id === media.id) === index)
+              .map((media) => ({ ...media, media_type: mediaType })))
+            setSearchResults([])
+            setIsLoading(false)
+            return
+          }
+
           const response = await searchMedia(searchQuery)
-          const filteredResults = searchQuery
-            ? response.results ?? []
-            : mediaType === 'tv'
-              ? (await getPopularTvShows()).results ?? []
-              : (await getPopularMovies()).results ?? []
+          const filteredResults = response.results ?? []
 
           if (!isMounted) {
             return
           }
 
-          setSearchResults(
-            filteredResults
-              .filter((media) => mediaType ? media.media_type === mediaType || !media.media_type : media.media_type === 'movie' || media.media_type === 'tv')
-              .map((media) => ({ ...media, media_type: media.media_type ?? mediaType })),
-          )
+          setSearchResults(filteredResults
+            .filter((media) => media.media_type === mediaType || !media.media_type)
+            .map((media) => ({ ...media, media_type: media.media_type ?? mediaType })))
           setIsLoading(false)
           return
         }
@@ -114,11 +133,11 @@ function Home() {
 
   return (
     <div className={`home-page ${searchQuery || mediaType ? 'home-page--searching' : ''}`}>
-      {searchQuery || mediaType ? (
+      {searchQuery ? (
         <section className="home-search-results" aria-live="polite">
           <div className="home-search-heading">
             <p>{searchQuery ? 'Resultados da busca' : 'Catálogo filtrado'}</p>
-            <h1>{searchQuery || (mediaType === 'tv' ? 'Séries' : 'Filmes')}</h1>
+            <h1>{searchQuery}</h1>
           </div>
           {searchResults.length ? (
             <GenreRow title="Títulos encontrados" items={searchResults} />
@@ -128,6 +147,11 @@ function Home() {
             </div>
           )}
         </section>
+      ) : mediaType ? (
+        <>
+          <GenreRow title="Ação" items={actionMedia} />
+          <GenreRow title="Comédia/Drama" items={comedyDramaMedia} />
+        </>
       ) : (
         <>
           <HeroBanner media={featuredMedia} />
