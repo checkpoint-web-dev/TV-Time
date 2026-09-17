@@ -53,7 +53,11 @@ export async function getTrending(mediaType = 'all', timeWindow = 'week') {
 }
 
 export async function getMoviesByGenre(genreId, page = 1) {
-  return requestTmdb('/discover/movie', {
+  return getMediaByGenre('movie', genreId, page)
+}
+
+export async function getMediaByGenre(mediaType, genreId, page = 1) {
+  return requestTmdb(`/discover/${mediaType}`, {
     with_genres: String(genreId),
     sort_by: 'popularity.desc',
     page: String(page),

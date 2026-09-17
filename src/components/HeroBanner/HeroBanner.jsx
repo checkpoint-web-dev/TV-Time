@@ -15,7 +15,7 @@ function HeroBanner({ media }) {
   const overview = media.overview || 'Nenhuma sinopse disponível no momento.'
   const backdropUrl = media.backdrop_path
     ? `${BACKDROP_BASE_URL}${media.backdrop_path}`
-    : 'https://placehold.co/1600x900/0f2d43/ffd000?text=TV+Time'
+    : 'https://placehold.co/1600x900/1c1c1e/ffd000?text=TV+Time'
 
   const firstAirYear = media.first_air_date
     ? new Date(media.first_air_date).getFullYear()
@@ -33,7 +33,7 @@ function HeroBanner({ media }) {
   return (
     <section
       className="hero-banner"
-      style={{ backgroundImage: `linear-gradient(90deg, rgba(7, 28, 45, 0.92) 0%, rgba(7, 28, 45, 0.6) 38%, rgba(7, 28, 45, 0.2) 100%), url(${backdropUrl})` }}
+      style={{ backgroundImage: `linear-gradient(90deg, rgba(18, 18, 18, 0.94) 0%, rgba(18, 18, 18, 0.64) 38%, rgba(18, 18, 18, 0.16) 100%), url(${backdropUrl})` }}
       aria-label={`Destaque de ${title}`}
     >
       <div className="hero-banner-content">

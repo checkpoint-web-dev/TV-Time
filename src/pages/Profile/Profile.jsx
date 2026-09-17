@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AlertCircle, Clock3, Eye, LoaderCircle } from 'lucide-react'
+import { AlertCircle, Eye, LoaderCircle } from 'lucide-react'
 import MediaCard from '../../components/MediaCard/MediaCard'
 import StatsCard from '../../components/StatsCard/StatsCard'
 import { getMediaDetails } from '../../services/tmdb'
@@ -40,15 +40,12 @@ function getMediaRuntime(media) {
   return Number(media.runtime ?? 0)
 }
 
-function formatWatchTime(totalMinutes) {
-  if (!totalMinutes) {
-    return '0h 0min'
-  }
-
-  const hours = Math.floor(totalMinutes / 60)
+function getWatchTimeParts(totalMinutes) {
+  const days = Math.floor(totalMinutes / (24 * 60))
+  const hours = Math.floor((totalMinutes % (24 * 60)) / 60)
   const minutes = totalMinutes % 60
 
-  return `${hours}h ${minutes}min`
+  return { days, hours, minutes }
 }
 
 function Profile() {
@@ -94,6 +91,7 @@ function Profile() {
   }, [watchedIds])
 
   const totalMinutes = mediaItems.reduce((total, media) => total + getMediaRuntime(media), 0)
+  const watchTime = getWatchTimeParts(totalMinutes)
 
   const handleToggleWatched = (media) => {
     const nextWatchedIds = watchedIds.filter((watchedId) => watchedId !== String(media.id))
@@ -103,28 +101,43 @@ function Profile() {
 
   return (
     <div className="profile-page">
-      <header className="profile-header">
-        <div className="profile-avatar" aria-hidden="true">TV</div>
-        <div>
-          <p className="profile-kicker">Seu espaço</p>
-          <h1>Meu perfil</h1>
-          <p>Acompanhe as histórias que já fizeram parte da sua maratona.</p>
-        </div>
-      </header>
+      <section className="profile-overview">
+        <header className="profile-header">
+          <div className="profile-avatar" aria-hidden="true">TV</div>
+          <div>
+            <p className="profile-kicker">Seu espaço</p>
+            <h1>Meu perfil</h1>
+            <p>Acompanhe as histórias que já fizeram parte da sua maratona.</p>
+          </div>
+        </header>
 
-      <section className="profile-stats" aria-label="Estatísticas do perfil">
-        <StatsCard
-          label="Total assistido"
-          value={watchedIds.length}
-          detail={watchedIds.length === 1 ? 'título salvo' : 'títulos salvos'}
-          icon={Eye}
-        />
-        <StatsCard
-          label="Tempo gasto"
-          value={formatWatchTime(totalMinutes)}
-          detail="estimativa baseada no TMDB"
-          icon={Clock3}
-        />
+        <section className="profile-stats" aria-label="Estatísticas do perfil">
+          <StatsCard
+            label="Total assistido"
+            value={watchedIds.length}
+            detail={watchedIds.length === 1 ? 'título salvo' : 'títulos salvos'}
+          />
+          <StatsCard
+            label="Tempo gasto"
+            value={(
+              <div className="stats-card-value--time" aria-label={`${watchTime.days} dias, ${watchTime.hours} horas e ${watchTime.minutes} minutos`}>
+                <span className="stats-card-time-unit">
+                  <strong>{watchTime.days}</strong>
+                  <small>dias</small>
+                </span>
+                <span className="stats-card-time-unit">
+                  <strong>{watchTime.hours}</strong>
+                  <small>horas</small>
+                </span>
+                <span className="stats-card-time-unit">
+                  <strong>{watchTime.minutes}</strong>
+                  <small>minutos</small>
+                </span>
+              </div>
+            )}
+            detail="estimativa baseada no TMDB"
+          />
+        </section>
       </section>
 
       <section className="profile-library" aria-live="polite" aria-busy={isLoading}>
