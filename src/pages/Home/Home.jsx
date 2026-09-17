@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { AlertCircle, LoaderCircle } from 'lucide-react'
+import { useSearchParams } from 'react-router-dom'
 import GenreRow from '../../components/GenreRow/GenreRow'
 import HeroBanner from '../../components/HeroBanner/HeroBanner'
-import { getMoviesByGenre, getTrending } from '../../services/tmdb'
+import { getMoviesByGenre, getPopularMovies, getPopularTvShows, getTrending, searchMedia } from '../../services/tmdb'
 import './Home.css'
 
 const ACTION_GENRE_ID = 28
@@ -10,9 +11,13 @@ const COMEDY_GENRE_ID = 35
 const DRAMA_GENRE_ID = 18
 
 function Home() {
+  const [searchParams] = useSearchParams()
+  const searchQuery = searchParams.get('busca')?.trim() ?? ''
+  const mediaType = searchParams.get('tipo') ?? ''
   const [featuredMedia, setFeaturedMedia] = useState(null)
   const [actionMedia, setActionMedia] = useState([])
   const [comedyDramaMedia, setComedyDramaMedia] = useState([])
+  const [searchResults, setSearchResults] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -20,7 +25,31 @@ function Home() {
     let isMounted = true
 
     async function loadHomeCatalog() {
+      setIsLoading(true)
+      setErrorMessage('')
+
       try {
+        if (searchQuery || mediaType) {
+          const response = await searchMedia(searchQuery)
+          const filteredResults = searchQuery
+            ? response.results ?? []
+            : mediaType === 'tv'
+              ? (await getPopularTvShows()).results ?? []
+              : (await getPopularMovies()).results ?? []
+
+          if (!isMounted) {
+            return
+          }
+
+          setSearchResults(
+            filteredResults
+              .filter((media) => mediaType ? media.media_type === mediaType || !media.media_type : media.media_type === 'movie' || media.media_type === 'tv')
+              .map((media) => ({ ...media, media_type: media.media_type ?? mediaType })),
+          )
+          setIsLoading(false)
+          return
+        }
+
         const [trending, action, comedy, drama] = await Promise.all([
           getTrending(),
           getMoviesByGenre(ACTION_GENRE_ID),
@@ -46,6 +75,7 @@ function Home() {
         ]
           .filter((media, index, items) => items.findIndex((item) => item.id === media.id) === index)
           .map((media) => ({ ...media, media_type: 'movie' })))
+        setSearchResults([])
       } catch (error) {
         if (isMounted) {
           setErrorMessage(error instanceof Error ? error.message : 'Não foi possível carregar o catálogo.')
@@ -62,7 +92,7 @@ function Home() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [searchQuery, mediaType])
 
   if (isLoading) {
     return (
@@ -83,10 +113,28 @@ function Home() {
   }
 
   return (
-    <div className="home-page">
-      <HeroBanner media={featuredMedia} />
-      <GenreRow title="Ação" items={actionMedia} />
-      <GenreRow title="Comédia/Drama" items={comedyDramaMedia} />
+    <div className={`home-page ${searchQuery || mediaType ? 'home-page--searching' : ''}`}>
+      {searchQuery || mediaType ? (
+        <section className="home-search-results" aria-live="polite">
+          <div className="home-search-heading">
+            <p>{searchQuery ? 'Resultados da busca' : 'Catálogo filtrado'}</p>
+            <h1>{searchQuery || (mediaType === 'tv' ? 'Séries' : 'Filmes')}</h1>
+          </div>
+          {searchResults.length ? (
+            <GenreRow title="Títulos encontrados" items={searchResults} />
+          ) : (
+            <div className="home-state">
+              <p>Nenhum título encontrado.</p>
+            </div>
+          )}
+        </section>
+      ) : (
+        <>
+          <HeroBanner media={featuredMedia} />
+          <GenreRow title="Ação" items={actionMedia} />
+          <GenreRow title="Comédia/Drama" items={comedyDramaMedia} />
+        </>
+      )}
     </div>
   )
 }

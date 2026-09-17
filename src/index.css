@@ -1,9 +1,4 @@
-@font-face {
-  font-family: 'DM Sans';
-  src: url('./assets/fonts/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 :root {
   --color-background: #121212;
@@ -16,7 +11,7 @@
   --color-text-muted: #a7a7a7;
   --color-border: #353535;
   --color-focus: #f7d36a;
-  --font-body: 'DM Sans', 'Segoe UI', sans-serif;
+  --font-body: 'Bebas Neue', sans-serif;
   --content-width: 1200px;
   color: var(--color-text);
   background: var(--color-background);
