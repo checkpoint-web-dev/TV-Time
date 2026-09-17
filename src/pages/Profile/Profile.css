@@ -1,0 +1,141 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem 0;
+}
+
+.profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #121212;
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.profile-kicker {
+  color: var(--color-accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.profile-header h1 {
+  margin-top: 0.2rem;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.profile-header p:last-child {
+  margin-top: 0.55rem;
+  color: var(--color-text-muted);
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.profile-library {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.profile-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.profile-section-heading h2 {
+  margin-top: 0.25rem;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  letter-spacing: -0.04em;
+}
+
+.profile-section-heading > span {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.profile-media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.profile-media-grid .media-card {
+  width: 100%;
+  min-width: 0;
+}
+
+.profile-state {
+  display: grid;
+  place-items: center;
+  gap: 0.7rem;
+  min-height: 14rem;
+  padding: 2rem;
+  border: 1px dashed var(--color-border);
+  border-radius: 1rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.profile-state--error {
+  color: #ff9ca9;
+}
+
+.profile-state-icon {
+  color: var(--color-accent);
+}
+
+.profile-state--error .profile-state-icon {
+  color: #ff7181;
+}
+
+.profile-state-icon--spin {
+  animation: profile-spin 0.9s linear infinite;
+}
+
+@keyframes profile-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-header {
+    align-items: flex-start;
+  }
+
+  .profile-avatar {
+    width: 4.25rem;
+    height: 4.25rem;
+  }
+
+  .profile-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-media-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+  }
+}

@@ -21,7 +21,7 @@
 
 ## FASE 4: Paginas Principais (Telamento do MVP)
 
-- [ ] **Task 4.1:** Implementar a pagina Home com `HeroBanner` e os trilhos de genero de Acao e Comedia/Drama, carregando os dados do TMDB.
-- [ ] **Task 4.2:** Implementar a pagina Busca com campo de entrada e grade de resultados obtidos pela API do TMDB, incluindo estados de carregamento, vazio e erro.
-- [ ] **Task 4.3:** Implementar a pagina Detalhes em `/midia/:id`, exibindo poster, titulo, sinopse e avaliacao, com o botao **Marcar como Visto** persistido no `localStorage`.
-- [ ] **Task 4.4:** Implementar a pagina Perfil em `/perfil`, exibindo metricas de total assistido e tempo gasto, alem da lista ou grade de midias salvas, usando os registros do `localStorage`.
+- [x] **Task 4.1:** Implementar a pagina Home com `HeroBanner` e os trilhos de genero de Acao e Comedia/Drama, carregando os dados do TMDB.
+- [x] **Task 4.2:** Implementar a pagina Busca com campo de entrada e grade de resultados obtidos pela API do TMDB, incluindo estados de carregamento, vazio e erro.
+- [x] **Task 4.3:** Implementar a pagina Detalhes em `/midia/:id`, exibindo poster, titulo, sinopse e avaliacao, com o botao **Marcar como Visto** persistido no `localStorage`.
+- [x] **Task 4.4:** Implementar a pagina Perfil em `/perfil`, exibindo metricas de total assistido e tempo gasto, alem da lista ou grade de midias salvas, usando os registros do `localStorage`.

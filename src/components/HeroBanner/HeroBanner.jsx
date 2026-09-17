@@ -26,7 +26,8 @@ function HeroBanner({ media }) {
   const year = releaseYear ?? firstAirYear ?? '2024'
 
   const handleShowDetails = () => {
-    navigate(`/midia/${media.id}`)
+    const mediaType = media.media_type === 'tv' ? 'tv' : 'movie'
+    navigate(`/midia/${media.id}?tipo=${mediaType}`)
   }
 
   return (

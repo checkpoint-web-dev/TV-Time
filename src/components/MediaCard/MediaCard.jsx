@@ -43,7 +43,8 @@ function MediaCard({ media, isWatched = false, likes = 0, onToggleWatched }) {
   const label = getMediaTypeLabel(media)
 
   const handleNavigate = () => {
-    navigate(`/midia/${media.id}`)
+    const mediaType = media.media_type === 'tv' ? 'tv' : 'movie'
+    navigate(`/midia/${media.id}?tipo=${mediaType}`)
   }
 
   const handleToggleWatched = (event) => {

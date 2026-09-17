@@ -1,7 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './pages/Home/Home'
+import Search from './pages/Search/Search'
+import Details from './pages/Details/Details'
+import Profile from './pages/Profile/Profile'
 import RootLayout from './components/RootLayout/RootLayout'
-import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 import './App.css'
 
 const router = createBrowserRouter([
@@ -10,16 +12,9 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'busca', element: <div className="placeholder-page">Busca</div> },
-      {
-        path: 'perfil',
-        element: (
-          <PrivateRoute>
-            <div className="placeholder-page">Perfil</div>
-          </PrivateRoute>
-        ),
-      },
-      { path: 'midia/:id', element: <div className="placeholder-page">Detalhes</div> },
+      { path: 'busca', element: <Search /> },
+      { path: 'perfil', element: <Profile /> },
+      { path: 'midia/:id', element: <Details /> },
     ],
   },
 ])
