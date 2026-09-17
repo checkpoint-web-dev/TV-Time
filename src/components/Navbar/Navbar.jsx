@@ -33,14 +33,16 @@ function Navbar() {
   return (
     <header className="navbar-shell">
       <nav className="navbar" aria-label="Navegação principal">
-        <NavLink to="/" className="navbar-brand" aria-label="TV Time">
-          <span className="brand-mark">TV</span>
-          <span className="brand-name">Time</span>
-        </NavLink>
+        <div className="navbar-left">
+          <NavLink to="/" className="navbar-brand" aria-label="TV Time">
+            <span className="brand-mark">TV</span>
+            <span className="brand-name">Time</span>
+          </NavLink>
 
-        <div className="navbar-categories" aria-label="Categorias">
-          <button type="button" className={activeType === 'tv' ? 'is-active' : ''} onClick={() => handleTypeFilter('tv')}>Séries</button>
-          <button type="button" className={activeType === 'movie' ? 'is-active' : ''} onClick={() => handleTypeFilter('movie')}>Filmes</button>
+          <div className="navbar-categories" aria-label="Categorias">
+            <button type="button" className={activeType === 'tv' ? 'is-active' : ''} onClick={() => handleTypeFilter('tv')}>Séries</button>
+            <button type="button" className={activeType === 'movie' ? 'is-active' : ''} onClick={() => handleTypeFilter('movie')}>Filmes</button>
+          </div>
         </div>
 
         <form className="navbar-search" onSubmit={handleSubmit} role="search">

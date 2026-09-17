@@ -15,7 +15,7 @@ function Home() {
   const [searchParams] = useSearchParams()
   const searchQuery = searchParams.get('busca')?.trim() ?? ''
   const mediaType = searchParams.get('tipo') ?? ''
-  const [featuredMedia, setFeaturedMedia] = useState(null)
+  const [featuredMedia, setFeaturedMedia] = useState([])
   const [actionMedia, setActionMedia] = useState([])
   const [comedyDramaMedia, setComedyDramaMedia] = useState([])
   const [searchResults, setSearchResults] = useState([])
@@ -84,7 +84,13 @@ function Home() {
           (media) => media.media_type === 'movie' || media.media_type === 'tv',
         )
 
-        setFeaturedMedia(trendingMedia[0] ?? action.results?.[0] ?? null)
+        const featuredItems = trendingMedia.length
+          ? trendingMedia.slice(0, 5)
+          : (action.results ?? [])
+            .slice(0, 5)
+            .map((media) => ({ ...media, media_type: 'movie' }))
+
+        setFeaturedMedia(featuredItems)
         setActionMedia(
           (action.results ?? []).map((media) => ({ ...media, media_type: 'movie' })),
         )
