@@ -6,15 +6,16 @@
 }
 
 :root {
-  --color-background: #071c2d;
-  --color-surface: #0f2d43;
-  --color-brand: #4da3ff;
-  --color-brand-strong: #1b8cff;
-  --color-accent: #4ade80;
-  --color-text: #edf6ff;
-  --color-text-muted: #9dc0d9;
-  --color-border: #1d3f5f;
-  --color-focus: #dff6ff;
+  --color-background: #121212;
+  --color-surface: #1c1c1e;
+  --color-brand: #efb810;
+  --color-brand-strong: #d9a30b;
+  --color-accent: #efb810;
+  --color-brand-rgb: 239, 184, 16;
+  --color-text: #f5f5f5;
+  --color-text-muted: #a7a7a7;
+  --color-border: #353535;
+  --color-focus: #f7d36a;
   --font-body: 'DM Sans', 'Segoe UI', sans-serif;
   --content-width: 1200px;
   color: var(--color-text);
@@ -31,6 +32,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  border-radius: 0 !important;
 }
 
 html {
@@ -101,8 +103,7 @@ ol {
 
 #root {
   min-height: 100vh;
-  width: min(100%, var(--content-width));
-  margin: 0 auto;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

@@ -1,7 +1,7 @@
 .home-page {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .home-page .genre-row {
@@ -20,7 +20,7 @@
 
 .home-state--error {
   padding: 2rem;
-  border: 1px solid rgba(255, 208, 0, 0.25);
+  border: 1px solid rgba(var(--color-brand-rgb), 0.25);
   border-radius: 1rem;
   background: rgba(28, 28, 30, 0.75);
 }
@@ -30,7 +30,7 @@
 }
 
 .home-state--error .home-state-icon {
-  color: var(--color-yellow, #ffd000);
+  color: var(--color-yellow, var(--color-brand));
 }
 
 .home-state-icon--spin {
