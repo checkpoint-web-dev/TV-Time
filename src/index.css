@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tinos:wght@400;700&display=swap');
 
 :root {
   --color-background: #121212;
@@ -11,7 +11,7 @@
   --color-text-muted: #a7a7a7;
   --color-border: #353535;
   --color-focus: #f7d36a;
-  --font-body: 'Bebas Neue', sans-serif;
+  --font-body: 'Tinos', serif;
   --content-width: 1200px;
   color: var(--color-text);
   background: var(--color-background);
