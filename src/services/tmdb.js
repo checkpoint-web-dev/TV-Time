@@ -2,36 +2,28 @@ const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_LANGUAGE = 'pt-BR'
 
 const tmdbToken = import.meta.env.VITE_TMDB_TOKEN
-const tmdbApiKey = import.meta.env.VITE_TMDB_API_KEY
 
 function createRequestUrl(path, params = {}) {
   const url = new URL(`${TMDB_BASE_URL}${path}`)
   url.search = new URLSearchParams({
     language: TMDB_LANGUAGE,
     ...params,
-    ...(tmdbToken ? {} : { api_key: tmdbApiKey ?? '' }),
   })
 
   return url
 }
 
 async function requestTmdb(path, params = {}) {
-  if (!tmdbToken && !tmdbApiKey) {
-    throw new Error(
-      'Configure VITE_TMDB_TOKEN ou VITE_TMDB_API_KEY para acessar o TMDB.',
-    )
+  if (!tmdbToken) {
+    throw new Error('Configure VITE_TMDB_TOKEN para acessar o TMDB.')
   }
 
   try {
     const response = await fetch(createRequestUrl(path, params), {
-      headers: tmdbToken
-        ? {
-            Authorization: `Bearer ${tmdbToken}`,
-            accept: 'application/json',
-          }
-        : {
-            accept: 'application/json',
-          },
+      headers: {
+        Authorization: `Bearer ${tmdbToken}`,
+        accept: 'application/json',
+      },
     })
 
     if (!response.ok) {
