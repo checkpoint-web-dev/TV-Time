@@ -1,22 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Home, Search, UserRound } from 'lucide-react'
 import './Navbar.css'
 
 const navItems = [
-  { to: '/', label: 'Home', icon: Home },
-  { to: '/perfil', label: 'Perfil', icon: UserRound },
+  { to: '/', icon: Home },
+  { to: '/perfil', icon: UserRound },
 ]
 
 function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
   const [query, setQuery] = useState(() => new URLSearchParams(location.search).get('busca') ?? '')
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const searchInputRef = useRef(null)
   const activeType = new URLSearchParams(location.search).get('tipo') ?? ''
 
   useEffect(() => {
-    setQuery(new URLSearchParams(location.search).get('busca') ?? '')
-  }, [location.search])
+    if (isSearchOpen) {
+      searchInputRef.current?.focus()
+    }
+  }, [isSearchOpen])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -45,9 +49,18 @@ function Navbar() {
           </div>
         </div>
 
-        <form className="navbar-search" onSubmit={handleSubmit} role="search">
-          <Search size={16} aria-hidden="true" />
+        <form className={`navbar-search${isSearchOpen ? ' is-open' : ''}`} onSubmit={handleSubmit} role="search">
+          <button
+            type="button"
+            className="navbar-search-toggle"
+            onClick={() => setIsSearchOpen((open) => !open)}
+            aria-label={isSearchOpen ? 'Fechar busca' : 'Abrir busca'}
+            aria-expanded={isSearchOpen}
+          >
+            <Search size={18} aria-hidden="true" />
+          </button>
           <input
+            ref={searchInputRef}
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -57,17 +70,19 @@ function Navbar() {
         </form>
 
         <ul className="nav-list">
-          {navItems.map(({ to, label, icon: Icon }) => (
+          {navItems.map(({ to, icon: Icon }) => (
             <li key={to} className="nav-item">
               <NavLink
                 to={to}
                 end={to === '/'}
-                className={({ isActive }) =>
-                  isActive ? 'nav-link active' : 'nav-link'
+                className={({ isActive }) => {
+                  const classes = ['nav-link']
+                  if (isActive) classes.push('active')
+                  if (to === '/perfil') classes.push('profile-link')
+                  return classes.join(' ')
                 }
-              >
+              }>
                 <Icon size={18} aria-hidden="true" />
-                <span>{label}</span>
               </NavLink>
             </li>
           ))}
