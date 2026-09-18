@@ -10,6 +10,10 @@ TV Time
 - Gabriel Brito Braga
 - Hiago Silva de Oliveira
 
+## Link do site no Vercel:
+
+https://tv-time-one.vercel.app/
+
 ## Problema
 
 Muitas pessoas têm dificuldade em organizar o que assistiram, descobrir novos filmes e séries relevantes e acompanhar seus hábitos de consumo em um único lugar. Além disso, plataformas de recomendação e catalogação costumam estar fragmentadas e pouco intuitivas.
