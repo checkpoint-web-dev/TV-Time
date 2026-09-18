@@ -6,9 +6,9 @@ TV Time
 
 ## Integrantes do grupo
 
-- Murilo Castro Chialastri
-- Gabriel Brito Braga
-- Hiago Silva de Oliveira
+- Murilo Castro Chialastri : RM 569382
+- Gabriel Brito Braga : RM 570467
+- Hiago Silva de Oliveira: RM 572664
 
 ## Link do site no Vercel:
 
